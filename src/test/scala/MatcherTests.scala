@@ -7,27 +7,37 @@ import org.scalatest.FlatSpec
   */
 
 class MatcherTests extends FlatSpec {
-		"Matcher that is passed a file matching the filter" should
+	"Matcher that is passed a file matching the filter" should
 		"return a list with that file name" in {
-			val matcher = new Matcher("fake", "fakePath")
+		val matcher = new Matcher("fake", "fakePath")
 
-			val results = matcher.execute()
+		val results = matcher.execute()
 
-			assert(results == List("fakePath"))
-		}
+		assert(results == List("fakePath"))
+	}
 
-		"Matcher using a directory containing one file matching the filter " should
+	"Matcher using a directory containing one file matching the filter " should
 		"return a list with that file name" in {
-			val matcher = new Matcher("txt", new File("testFiles").getCanonicalPath())
+		val matcher = new Matcher("txt", new File("testFiles").getCanonicalPath())
 
-			val results = matcher.execute()
+		val results = matcher.execute()
 
-			assert(results == List("readme.txt"))
-		}
+		assert(results == List("notes.txt", "readme.txt"))
+	}
 
-		"Matcher that is not passed a root file location" should
+	"Matcher that is not passed a root file location" should
 		"use the current location" in {
-			val matcher = new Matcher("filter")
-			assert(matcher.rootLocation == new File(".").getCanonicalPath)
-		}
+		val matcher = new Matcher("filter")
+		assert(matcher.rootLocation == new File(".").getCanonicalPath)
+	}
+
+	"Matcher with subfolder checking matching root location with two subtree files matching" should
+	"return a list with those file names" in {
+		val searchSubDirectories = true
+		val matcher = new Matcher("txt", new File("testFiles").getCanonicalPath(), searchSubDirectories)
+
+		val result = matcher.execute()
+
+		assert(result == List("readme.txt", "notes.txt"))
+	}
 }
