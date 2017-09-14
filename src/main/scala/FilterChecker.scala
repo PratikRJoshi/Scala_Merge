@@ -1,12 +1,14 @@
-package filesearcher
+class FilterChecker (filterStr : String) {
 
-class FilterChecker (filter : String) {
-    def matches(content : String) = content.contains(filter)
+    def matches(content : String): Boolean = content.contains(filterStr)
 
-    def findMatchedFiles(iOObjects : List[IOObject]) = {
+    def findMatchedFiles(iOObjects : List[IOObject]): List[IOObject] =
         for(iOObject <- iOObjects
-            if(iOObject.isInstanceOf[FileObject])
-            if(matches(iOObject.name)))
+            if iOObject.isInstanceOf[FileObject]
+            if matches(iOObject.name))
         yield iOObject
-    }
+}
+
+object FilterChecker {
+	def apply(filterStr: String): FilterChecker = new FilterChecker(filterStr)
 }
