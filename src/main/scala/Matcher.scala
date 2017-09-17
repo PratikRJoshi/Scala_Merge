@@ -5,10 +5,22 @@ import scala.annotation.tailrec
 /**
   * Created by pratik.joshi on 9/13/17.
   */
+/**
+  * This is the main entry point for checking the file system via supplied specs
+  *
+  * @param filter The filter that will be used to match against the file names
+  * @param rootLocation The starting location to search
+  * @param checkSubFolders A boolean denoting whether or not to search all the subfolders
+  * @param contentFilter A filter that will be used to match against the file contents
+  */
 class Matcher(filter: String, val rootLocation: String = new File(".").getCanonicalPath,
               checkSubFolders: Boolean = false, contentFilter: Option[String] = None) {
 	val rootIOObject = FileConverter.convertToIOObject(new File(rootLocation))
 
+	/**
+	  * This searches for the files that match the supplied specs
+	  * @return A list of filename, content matched count pairs
+	  */
 	def execute() = {
 		@tailrec
 		def recursiveMatch(files : List[IOObject], currentList: List[FileObject]) : List[FileObject] =
