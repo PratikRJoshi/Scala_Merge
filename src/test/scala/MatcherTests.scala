@@ -13,7 +13,7 @@ class MatcherTests extends FlatSpec {
 
 		val results = matcher.execute()
 
-		assert(results == List("fakePath"))
+		assert(results == List(("fakePath", None)))
 	}
 
 	"Matcher using a directory containing one file matching the filter " should
@@ -22,7 +22,7 @@ class MatcherTests extends FlatSpec {
 
 		val results = matcher.execute()
 
-		assert(results == List("readme.txt"))
+		assert(results == List(("readme.txt", None)))
 	}
 
 	"Matcher that is not passed a root file location" should
@@ -38,7 +38,7 @@ class MatcherTests extends FlatSpec {
 
 		val result = matcher.execute()
 
-		assert(result == List("notes.txt", "readme.txt"))
+		assert(result == List(("notes.txt", None), ("readme.txt", None)))
 	}
 
 	"Matcher given a path that has one file that matches the file filter and content filter" should
@@ -46,7 +46,7 @@ class MatcherTests extends FlatSpec {
 		val matcher = new Matcher("data", new File(".").getCanonicalPath, true, Some("pluralsight"))
 		val matchedFiles = matcher.execute()
 
-		assert(matchedFiles == List("pluralsight.data"))
+		assert(matchedFiles == List(("pluralsight.data", Some(3))))
 	}
 
 	"Matcher given a path that has no file that matches the file filter and content filter" should
